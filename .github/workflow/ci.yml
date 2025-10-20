@@ -1,0 +1,35 @@
+name: CI Pipeline - Lab03
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧩 Checkout del código
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🧪 Ejecutar pruebas con cobertura
+        run: |
+          start_build=$(date +%s)
+          pytest --cov=src.calculator --cov-report=term-missing
+          pytest --cov=src.calculator --cov-report=html
+          end_build=$(date +%s)
+          echo "⏱️ Tiempo total de build: $((end_build - start_build)) segundos"
+
+      - name: ⏱️ Calcular Lead Time
+        run: |
+          commit_ts=$(git log -1 --format=%ct)
+          now_ts=$(date +%s)
+          echo "Lead Time (segundos): $((now_ts - commit_ts))"
