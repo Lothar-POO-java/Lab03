@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from calculator import Calculator
+from src.calculator import Calculator
 import pytest
 
 # Tests para la calculadora

@@ -1,6 +1,10 @@
 name: CI Pipeline - Lab03
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build-and-test:
@@ -28,8 +32,3 @@ jobs:
           end_build=$(date +%s)
           echo "⏱️ Tiempo total de build: $((end_build - start_build)) segundos"
 
-      - name: ⏱️ Calcular Lead Time
-        run: |
-          commit_ts=$(git log -1 --format=%ct)
-          now_ts=$(date +%s)
-          echo "Lead Time (segundos): $((now_ts - commit_ts))"
